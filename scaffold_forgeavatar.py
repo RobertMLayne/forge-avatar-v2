@@ -20,7 +20,7 @@ DIRS: list[Path] = [
     ROOT / "forgeavatar" / "assets",
     ROOT / "docs",
     ROOT / "tests",
-    ROOT / ".github" / "workflows",
+    ROOT / "docs" / "legacy-workflow-placeholders",
     ROOT / "scripts",
 ]
 
@@ -46,8 +46,9 @@ FILES: dict[Path, str] = {
     ROOT / "docs" / "usage.rst": "",
     ROOT / "docs" / "api.rst": "",
 
-    ROOT / ".github" / "workflows" / "python.yml": "",
-    ROOT / ".github" / "workflows" / "gh-pages.yml": "",
+    # Empty historical placeholders must not be discovered as executable Actions.
+    ROOT / "docs" / "legacy-workflow-placeholders" / "python.yml.disabled": "",
+    ROOT / "docs" / "legacy-workflow-placeholders" / "gh-pages.yml.disabled": "",
 
     # Root metadata
     ROOT / "Makefile": "",
@@ -83,7 +84,7 @@ def create_tree() -> None:
         if not any(d.iterdir()):
             (d / ".gitkeep").touch()
 
-    print("ForgeAvatar scaffold complete ✔")
+    print("ForgeAvatar scaffold complete")
 
 
 def nuke_tree() -> None:

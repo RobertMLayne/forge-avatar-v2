@@ -10,6 +10,13 @@ This repair moves only the empty workflow placeholders out of GitHub's active
 Their Git blob identity is `e69de29bb2d1d6434b8b29ae775ad8c2e48c5391`.
 Existing failed runs remain historical evidence; this does not turn them green.
 
+The fresh-repository scaffold generator also writes the empty placeholders to
+this archived location, so generated repositories do not recreate invalid
+Actions definitions. A standard-library regression test exercises generation,
+repeated generation and preservation of existing content in a temporary root.
+The completion message uses plain ASCII so the generator also exits successfully
+when Windows redirects output using its default console encoding.
+
 | Original discovered path | Preserved placeholder |
 |---|---|
 | `.github/workflows/gh-pages.yml` | `docs/legacy-workflow-placeholders/gh-pages.yml.disabled` |
@@ -26,8 +33,10 @@ behavior. This narrow workflow repair does not retire this source repository,
 alter its license or visibility, or establish a working legacy release pipeline.
 
 Validation on October 1, 2026: original workflow bytes and tracked Python source
-hashes were checked before and after the move; all Python source remained
-unchanged. `git diff --check` passed. The official API reported no main branch
+hashes were checked before and after the initial move; all Python source remained
+unchanged in that archival commit. The follow-up changes the scaffold manifest
+and completion message, with `python -B tests/test_scaffold_workflows.py` passing
+on Windows with Python 3.12.10. `git diff --check` passed. The official API reported no main branch
 protection and no rulesets at inspection time. No executable test or deployment
 job existed in the archived files; none is claimed to have been run here.
 
